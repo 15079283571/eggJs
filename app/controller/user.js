@@ -1,3 +1,4 @@
+/* eslint-disable no-empty-function */
 'use strict'
 const md5 = require('md5')
 const jwt = require('jsonwebtoken')
@@ -14,8 +15,11 @@ const createRule = {
 class UserController extends BaseController {
   async login() {
     const { ctx, app } = this
-    const { pwd, captcha, email } = ctx.request.body
+    const { pwd, captcha, email, emailCode } = ctx.request.body
     if (captcha.toUpperCase() !== ctx.session.captcha.toUpperCase()) {
+      return this.error('验证码错误')
+    }
+    if (emailCode.toUpperCase() !== ctx.session.emailCode.toUpperCase()) {
       return this.error('验证码错误')
     }
     const user = ctx.model.User.findOne({

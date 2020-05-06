@@ -9,6 +9,7 @@ module.exports = app => {
   router.get('/', controller.home.index)
 
   router.get('/captcha', controller.utils.createSvg)
+  router.get('/sendEmail', controller.utils.sendMailer)
   router.group({ name: 'user', prefix: '/user' }, router => {
     const { info, reg, login, verify } = controller.user
     router.post('/reg', reg)
