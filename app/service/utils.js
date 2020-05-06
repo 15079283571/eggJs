@@ -10,7 +10,7 @@ const transporter = nodeMailer.createTransport({
   secureConnection: true,
   auth: {
     user: userEmail,
-    pass: '邮箱pop3的授权码',
+    pass: 'EDDCATCBVVQDRQWR',
   },
 })
 
