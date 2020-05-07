@@ -3,6 +3,8 @@
 const BaseController = require('./base')
 const captcha = require('svg-captcha')
 const fse = require('fs-extra')
+// const axios = require('axios')
+
 
 class UtilsController extends BaseController {
   async createSvg() {
@@ -20,13 +22,13 @@ class UtilsController extends BaseController {
   }
   async uploadFile() {
     const { ctx } = this
-    console.log(ctx.request)
     const file = ctx.request.files[0]
-    const name = ctx.request.body
-    // fse.move(file.filepath, this.config.UPLOAD_DIR + '/' + file.name)
-    // this.success({
-    //   url: `/public/${file.filename}`,
-    // })
+    // const name = ctx.request.body
+    console.log(file)
+    fse.move(file.filepath, this.config.UPLOAD_DIR + '/' + file.filename)
+    this.success({
+      url: `/public/${file.filename}`,
+    })
   }
   async sendMailer() {
     const { ctx } = this

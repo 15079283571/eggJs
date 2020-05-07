@@ -15,7 +15,7 @@ module.exports = appInfo => {
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1588658293303_1341'
   config.multipart = {
-    name: 'file',
+    mode: 'file',
     whitelist: () => true,
   }
   config.UPLOAD_DIR = path.resolve(__dirname, '..', 'app/public')
