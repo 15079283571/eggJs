@@ -15,7 +15,7 @@ class BaseController extends Controller {
       message,
     }
   }
-  error(message, code = 1, errors = {}) {
+  error(message, code = -1, errors = {}) {
     this.ctx.body = {
       code,
       message,

@@ -3,6 +3,7 @@
 const BaseController = require('./base')
 const captcha = require('svg-captcha')
 const fse = require('fs-extra')
+const path = require('path')
 // const axios = require('axios')
 
 
@@ -20,15 +21,28 @@ class UtilsController extends BaseController {
     console.log(svg.text)
     this.ctx.body = svg.data
   }
+  async mergeFile() {
+    console.log(1111)
+    const { size, ext, hash } = this.ctx.request.body
+    const filePath = path.resolve(this.config.UPLOAD_DIR, `${hash}.${ext}`)
+    await this.service.utils.mergeFile(filePath, hash, size)
+    this.success({
+      url: `/public/${hash}.${ext}`,
+    })
+  }
   async uploadFile() {
     const { ctx } = this
     const file = ctx.request.files[0]
-    // const name = ctx.request.body
+    const { name, hash } = ctx.request.body
+    const chunkPath = path.resolve(this.config.UPLOAD_DIR, hash)
+
+    if (!fse.existsSync(chunkPath)) {
+      await fse.mkdir(chunkPath)
+    }
+
     console.log(file)
-    fse.move(file.filepath, this.config.UPLOAD_DIR + '/' + file.filename)
-    this.success({
-      url: `/public/${file.filename}`,
-    })
+    fse.move(file.filepath, `${chunkPath}/${name}`)
+    this.message('切片上传成功')
   }
   async sendMailer() {
     const { ctx } = this

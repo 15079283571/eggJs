@@ -16,6 +16,7 @@ class UserController extends BaseController {
   async login() {
     const { ctx, app } = this
     const { pwd, captcha, email, emailCode } = ctx.request.body
+    // @todo 帐号密码没有校验
     if (captcha.toUpperCase() !== ctx.session.captcha.toUpperCase()) {
       return this.error('验证码错误')
     }
@@ -67,7 +68,10 @@ class UserController extends BaseController {
   }
   async checkEmail(email) {
     const user = await this.ctx.model.User.findOne({ email })
-    return user
+    if (user) {
+      return user
+    }
+    return this.error('用户不存在', -1)
   }
   async verify() {
 
@@ -76,6 +80,7 @@ class UserController extends BaseController {
     const { ctx } = this
     const { email } = ctx.state
     const user = await this.checkEmail(email)
+    // 需要判断用户是否存在
     this.success(user)
   }
 }
