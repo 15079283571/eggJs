@@ -41,6 +41,7 @@ class UtilsService extends Service {
     await this.mergeChunks(chunks, filePath, size)
   }
   async mergeChunks(files, dest, size) {
+    console.log(1)
     const pipStream = (filePath, writeStream) => new Promise(resolve => {
       const readStream = fse.createReadStream(filePath)
       readStream.on('end', () => {

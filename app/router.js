@@ -15,6 +15,7 @@ module.exports = app => {
 
   router.post('/uploadFile', controller.utils.uploadFile)
   router.post('/mergeFile', controller.utils.mergeFile)
+  router.post('/checkFile', controller.utils.checkFile)
 
   router.group({ name: 'user', prefix: '/user' }, router => {
     const { info, reg, login, verify } = controller.user
